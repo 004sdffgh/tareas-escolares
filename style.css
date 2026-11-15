@@ -1,0 +1,386 @@
+/* ===== Variables de color ===== */
+:root {
+    --fondo: #f3f6fa;
+    --texto: #1f2933;
+    --azul: #1d3557;
+    --azul-medio: #2a6f97;
+    --borde: #c5d0dc;
+    --blanco: #ffffff;
+    --rojo: #b3261e;
+    --rojo-fondo: #fdecea;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--texto);
+    background-color: var(--fondo);
+    line-height: 1.5;
+}
+
+/* ===== Encabezado y pie ===== */
+.encabezado {
+    padding: 24px 5%;
+    color: var(--blanco);
+    background-color: var(--azul);
+}
+
+.encabezado h1 {
+    margin: 0 0 4px;
+    font-size: 1.8rem;
+}
+
+.encabezado p {
+    margin: 0;
+}
+
+.pie {
+    padding: 16px 5%;
+    text-align: center;
+    color: var(--blanco);
+    background-color: var(--azul);
+}
+
+.pie p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.salto {
+    position: absolute;
+    left: -9999px;
+    top: 8px;
+    padding: 8px 12px;
+    background-color: #ffe082;
+    color: var(--texto);
+}
+
+.salto:focus {
+    left: 8px;
+    z-index: 10;
+}
+
+/* ===== Diseño general (Grid) ===== */
+.contenedor {
+    flex: 1 0 auto;
+    width: 92%;
+    max-width: 1100px;
+    margin: 24px auto;
+    display: grid;
+    grid-template-columns: minmax(280px, 360px) 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+.anuncio {
+    grid-column: 1 / -1;
+    margin: 0;
+    min-height: 1.5em;
+    font-weight: bold;
+    color: var(--azul);
+}
+
+.panel {
+    padding: 18px 20px;
+    background-color: var(--blanco);
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+}
+
+.panel h2 {
+    margin: 0 0 12px;
+    font-size: 1.25rem;
+    color: var(--azul);
+}
+
+.resumen {
+    grid-column: 1 / -1;
+}
+
+/* ===== Resumen ===== */
+.contadores {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 0 0 14px;
+    padding: 0;
+    list-style: none;
+}
+
+.contadores li {
+    flex: 1 1 120px;
+    padding: 10px 14px;
+    background-color: var(--fondo);
+    border-radius: 8px;
+}
+
+.numero {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--azul-medio);
+}
+
+.numero.vencidas {
+    color: var(--rojo);
+}
+
+.progreso label {
+    display: block;
+    margin-bottom: 4px;
+}
+
+progress {
+    width: 100%;
+    height: 16px;
+}
+
+.por-materia {
+    margin: 10px 0 0;
+    font-size: 0.95rem;
+    color: #4a5a6a;
+}
+
+/* ===== Formulario ===== */
+.formulario form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="search"],
+select,
+textarea {
+    width: 100%;
+    margin-top: 4px;
+    padding: 9px 10px;
+    font: inherit;
+    color: var(--texto);
+    background-color: var(--blanco);
+    border: 1px solid #6b7c8d;
+    border-radius: 6px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+[aria-invalid="true"] {
+    border: 2px solid var(--rojo);
+    background-color: var(--rojo-fondo);
+}
+
+.error {
+    min-height: 1.2em;
+    font-size: 0.88rem;
+    color: var(--rojo);
+}
+
+.mensaje {
+    margin: 0;
+}
+
+.mensaje.con-error {
+    margin-bottom: 4px;
+    padding: 8px 12px;
+    font-weight: bold;
+    color: var(--rojo);
+    background-color: var(--rojo-fondo);
+    border-left: 5px solid var(--rojo);
+}
+
+.formulario.editando,
+form.editando {
+    outline: 3px solid #f9a825;
+    outline-offset: 8px;
+    border-radius: 6px;
+}
+
+/* ===== Botones ===== */
+.botones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.btn {
+    padding: 9px 16px;
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 6px;
+}
+
+.btn.primario {
+    color: var(--blanco);
+    background-color: var(--azul);
+}
+
+.btn.primario:hover {
+    background-color: var(--azul-medio);
+}
+
+.btn.secundario {
+    color: var(--azul);
+    background-color: var(--blanco);
+    border-color: var(--azul);
+}
+
+.btn.secundario:hover {
+    background-color: #e3edf7;
+}
+
+.btn.peligro {
+    color: var(--rojo);
+    background-color: var(--blanco);
+    border-color: var(--rojo);
+}
+
+.btn.peligro:hover {
+    background-color: var(--rojo-fondo);
+}
+
+.btn.peligro-suave {
+    margin-top: 14px;
+    color: var(--rojo);
+    background-color: var(--blanco);
+    border-color: var(--rojo);
+}
+
+.btn[hidden],
+.btn-hidden {
+    display: none;
+}
+
+:focus-visible {
+    outline: 3px solid #f9a825;
+    outline-offset: 2px;
+}
+
+/* ===== Controles y lista ===== */
+.controles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 4px 12px;
+}
+
+.estado-lista {
+    margin: 14px 0 8px;
+    font-size: 0.92rem;
+    color: #4a5a6a;
+}
+
+.lista {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.tarea {
+    padding: 12px 14px;
+    border: 1px solid var(--borde);
+    border-left: 6px solid var(--azul-medio);
+    border-radius: 8px;
+    background-color: #fbfcfe;
+}
+
+.tarea.vencida {
+    border-left-color: var(--rojo);
+}
+
+.tarea.completada {
+    border-left-color: #2e7d32;
+    background-color: #f1f8f2;
+}
+
+.tarea.completada .tarea-titulo span {
+    text-decoration: line-through;
+    color: #5b6b7a;
+}
+
+.tarea-titulo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    font-size: 1.05rem;
+    cursor: pointer;
+}
+
+.tarea-titulo input {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 auto;
+}
+
+.etiquetas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 8px 0 0;
+}
+
+.etiqueta {
+    padding: 2px 10px;
+    font-size: 0.82rem;
+    color: #2c3e50;
+    background-color: #e8eef5;
+    border-radius: 12px;
+}
+
+.etiqueta.vencida {
+    color: var(--rojo);
+    background-color: var(--rojo-fondo);
+    font-weight: bold;
+}
+
+.prioridad-alta  { color: #8c1d18; background-color: #fde1de; font-weight: bold; }
+.prioridad-media { color: #7a5200; background-color: #fff1cc; font-weight: bold; }
+.prioridad-baja  { color: #1b5e20; background-color: #e1f3e3; font-weight: bold; }
+
+.notas {
+    margin: 8px 0 0;
+    font-size: 0.92rem;
+    color: #3d4b59;
+}
+
+.acciones {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.acciones .btn {
+    padding: 5px 12px;
+    font-size: 0.88rem;
+}
+
+/* ===== Móvil ===== */
+@media (max-width: 800px) {
+    .contenedor {
+        grid-template-columns: 1fr;
+    }
+
+    .encabezado h1 {
+        font-size: 1.5rem;
+    }
+}
