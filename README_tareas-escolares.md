@@ -124,4 +124,4 @@ Sitio publicado
 Repositorio: <https://github.com/004sdffgh/tareas-escolares>
 
 Demostración
-Ver el video de la demostración(demostracion.mp4) (2 min 48 s): muestra las validaciones, agregar, editar y eliminar tareas, completar, y la búsqueda, filtros y orden.
+Ver el video de la demostración(Videodemostracion.mp4) (2 min 48 s): muestra las validaciones, agregar, editar y eliminar tareas, completar, y la búsqueda, filtros y orden.
