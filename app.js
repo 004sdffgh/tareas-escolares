@@ -1,22 +1,5 @@
-/**
- * Gestor de tareas escolares
- * Actividad 3 - Laboratorio de Programación Web (FIME, UANL)
- *
- * Qué hace: permite agregar, ver, editar y eliminar tareas, marcarlas como
- * completadas, buscarlas, filtrarlas y ordenarlas. Los datos se guardan en
- * localStorage, así que siguen ahí al recargar la página o volver otro día.
- *
- * Organización del archivo:
- *   1. Constantes y estado         5. Operaciones sobre los datos (CRUD)
- *   2. Referencias al DOM          6. Filtros y orden
- *   3. Utilidades                  7. Pintar la interfaz (render)
- *   4. Persistencia y validación   8. Eventos e inicio
- */
 'use strict';
 
-/* ==========================================================
-   1. CONSTANTES Y ESTADO
-   ========================================================== */
 const CLAVE_ALMACEN = 'gestorTareas.v1';
 const MATERIAS = ['Programación Web', 'Cálculo', 'Física', 'Bases de datos', 'Inglés', 'Otra'];
 const PRIORIDADES = {
@@ -26,13 +9,13 @@ const PRIORIDADES = {
 };
 const CAMPOS = ['titulo', 'materia', 'fecha', 'prioridad', 'notas'];
 
-// Cada tarea es un objeto: { id, titulo, materia, fecha, prioridad, notas, completada, creada }
 let tareas = [];
-let idEditando = null;   // null = el formulario está en modo "agregar"
+let idEditando = null;   
 
-/* ==========================================================
-   2. REFERENCIAS AL DOM
-   ========================================================== */
+
+
+
+
 const $ = (selector) => document.querySelector(selector);
 
 const dom = {
@@ -63,24 +46,23 @@ const dom = {
     porMateria: $('#por-materia'),
 };
 
-/* ==========================================================
-   3. UTILIDADES
-   ========================================================== */
 
-// Fecha de hoy como "AAAA-MM-DD" usando la hora local (no UTC)
 const hoyISO = () => {
     const d = new Date();
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 };
 
+
+
+
+
 const nuevoId = () => `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 7)}`;
 
 const formatearFecha = (iso) =>
     new Date(`${iso}T00:00:00`).toLocaleDateString('es-MX', { day: 'numeric', month: 'short', year: 'numeric' });
-
 const estaVencida = (tarea) => !tarea.completada && tarea.fecha < hoyISO();
 
-// Crea un elemento del DOM. Usa textContent, así que lo que escriba el usuario nunca se interpreta como HTML.
+
 function crear(etiqueta, { clase, texto, atributos = {} } = {}, ...hijos) {
     const nodo = document.createElement(etiqueta);
     if (clase) nodo.className = clase;
@@ -92,9 +74,8 @@ function crear(etiqueta, { clase, texto, atributos = {} } = {}, ...hijos) {
 
 const anunciar = (mensaje) => { dom.anuncio.textContent = mensaje; };
 
-/* ==========================================================
-   4. PERSISTENCIA (localStorage) Y VALIDACIÓN
-   ========================================================== */
+
+
 const esTareaValida = (t) =>
     t !== null && typeof t === 'object' &&
     typeof t.id === 'string' && typeof t.titulo === 'string' &&
@@ -130,7 +111,9 @@ const leerFormulario = () => ({
     notas: dom.notas.value.trim(),
 });
 
-// Devuelve un objeto { campo: 'mensaje de error' }; si está vacío, los datos son válidos
+
+
+
 function validarTarea(datos) {
     const errores = {};
 
@@ -163,6 +146,11 @@ function validarTarea(datos) {
     return errores;
 }
 
+
+
+
+
+
 function mostrarErrores(errores) {
     CAMPOS.forEach((campo) => {
         $(`#error-${campo}`).textContent = errores[campo] ?? '';
@@ -176,9 +164,9 @@ function mostrarErrores(errores) {
     dom.mensajeForm.classList.toggle('con-error', total > 0);
 }
 
-/* ==========================================================
-   5. OPERACIONES SOBRE LOS DATOS (CRUD)
-   ========================================================== */
+
+
+
 function agregarTarea(datos) {
     tareas.push({ id: nuevoId(), ...datos, completada: false, creada: Date.now() });
 }
@@ -211,16 +199,16 @@ function eliminarCompletadas() {
     refrescar();
 }
 
-/* ==========================================================
-   6. FILTROS Y ORDEN
-   ========================================================== */
+
+
+
+
 const FILTROS_ESTADO = {
     todas: () => true,
     pendientes: (t) => !t.completada,
     completadas: (t) => t.completada,
     vencidas: estaVencida,
 };
-
 const COMPARADORES = {
     fecha: (a, b) => a.fecha.localeCompare(b.fecha) || a.creada - b.creada,
     prioridad: (a, b) => PRIORIDADES[a.prioridad].peso - PRIORIDADES[b.prioridad].peso || a.fecha.localeCompare(b.fecha),
@@ -238,9 +226,9 @@ function obtenerVisibles() {
         .sort(COMPARADORES[dom.orden.value]);
 }
 
-/* ==========================================================
-   7. PINTAR LA INTERFAZ
-   ========================================================== */
+
+
+
 function rellenarMaterias() {
     dom.materia.append(crear('option', { texto: '— Selecciona una materia —', atributos: { value: '' } }));
     MATERIAS.forEach((m) => dom.materia.append(crear('option', { texto: m, atributos: { value: m } })));
@@ -301,22 +289,23 @@ function renderResumen() {
     dom.progreso.value = porcentaje;
     dom.textoProgreso.textContent = `${porcentaje}%`;
 
-    // Conteo de tareas por materia con reduce
+  
     const porMateria = tareas.reduce((acc, t) => ({ ...acc, [t.materia]: (acc[t.materia] ?? 0) + 1 }), {});
     const partes = Object.entries(porMateria).map(([materia, n]) => `${materia} (${n})`);
     dom.porMateria.textContent = partes.length ? `Por materia: ${partes.join(' · ')}` : '';
 }
 
-// Guarda en localStorage y vuelve a pintar todo
+
 function refrescar({ guardar = true } = {}) {
     if (guardar) guardarTareas();
     renderLista();
     renderResumen();
 }
 
-/* ==========================================================
-   8. EVENTOS E INICIO
-   ========================================================== */
+
+
+
+
 function salirDeEdicion() {
     idEditando = null;
     dom.form.reset();
@@ -376,11 +365,11 @@ function iniciar() {
     dom.btnCancelar.addEventListener('click', () => { salirDeEdicion(); anunciar('Edición cancelada.'); });
     dom.btnLimpiar.addEventListener('click', eliminarCompletadas);
 
-    // Búsqueda, filtros y orden: se vuelve a pintar la lista en cuanto cambian
     dom.buscar.addEventListener('input', renderLista);
     [dom.filtroEstado, dom.filtroMateria, dom.orden].forEach((control) => control.addEventListener('change', renderLista));
 
-    // Delegación de eventos: un solo "oyente" para todos los botones y casillas de la lista
+
+    
     dom.lista.addEventListener('click', (evento) => {
         const boton = evento.target.closest('button[data-accion]');
         if (!boton) return;
